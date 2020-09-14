@@ -11,3 +11,6 @@ tsconfig.json
 
 # Previous build output
 *.tgz
+
+# Tests
+*.test.ts
