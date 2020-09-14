@@ -5,23 +5,26 @@ A no-nonsense, dependency-free, minimalistic logger.
 ## Usage
 
 ```js
-import { Logger } from '@luca_scorpion/tinylogger';
+const { Logger } = require('@luca_scorpion/tinylogger');
 // or:
-// const { Logger } = require('@luca_scorpion/tinylogger');
+// import { Logger } from '@luca_scorpion/tinylogger';
 
-const log = new Logger('my-logger');
+const log = new Logger('my-log');
+const anotherLog = new Logger('another-logger');
+
 log.debug('You cannot see me, because the default log level is INFO');
 log.info('Tell me more, tell me more.');
-log.warn('Something might be going on.');
-log.error('Panic! Red alert!');
+
+anotherLog.warn('Something might be going on.');
+anotherLog.error('Panic! Red alert!');
 ```
 
 The above example will print:
 
 ```
-2020-09-14T12:41:21.715Z [INFO ] my-logger | Tell me more, tell me more.
-2020-09-14T12:41:21.715Z [WARN ] my-logger | Something might be going on.
-2020-09-14T12:41:21.715Z [ERROR] my-logger | Panic! Red alert!
+2020-09-14T13:23:50.508Z [INFO ] my-log         | Tell me more, tell me more.
+2020-09-14T13:23:50.510Z [WARN ] another-logger | Something might be going on.
+2020-09-14T13:23:50.510Z [ERROR] another-logger | Panic! Red alert!
 ```
 
 ### Minimum Log Level
