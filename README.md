@@ -1,5 +1,8 @@
 # tinylogger
 
+[![npm](https://img.shields.io/npm/v/@luca_scorpion/tinylogger)](https://www.npmjs.com/package/@luca_scorpion/tinylogger)
+[![npm bundle size](https://img.shields.io/bundlephobia/min/@luca_scorpion/tinylogger)](https://www.npmjs.com/package/@luca_scorpion/tinylogger)
+
 A no-nonsense, dependency-free, minimalistic logger.
 
 ## Usage
