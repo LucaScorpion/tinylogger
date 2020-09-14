@@ -5,9 +5,9 @@ A no-nonsense, dependency-free, minimalistic logger.
 ## Usage
 
 ```js
-import Logger from '@luca_scorpion/tinylogger';
+import { Logger } from '@luca_scorpion/tinylogger';
 // or:
-// const Logger = require('@luca_scorpion/tinylogger');
+// const { Logger } = require('@luca_scorpion/tinylogger');
 
 const log = new Logger('my-logger');
 log.debug('Something is happening...');

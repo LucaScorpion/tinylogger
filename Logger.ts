@@ -14,7 +14,7 @@ const logLevelNames = {
   [LogLevel.OFF]: '',
 };
 
-export default class Logger {
+export class Logger {
   private static minLogLevel =
     LogLevel[process?.env?.LOG_LEVEL as keyof typeof LogLevel] ?? LogLevel.INFO;
   private static maxNameLength = 0;

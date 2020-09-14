@@ -15,6 +15,7 @@
   },
   "license": "WTFPL",
   "author": "Luca Scalzotto (https://github.com/LucaScorpion)",
+  "main": "Logger.js",
   "repository": "github:LucaScorpion/tinylogger",
   "scripts": {
     "build": "tsc",
