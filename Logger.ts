@@ -1,4 +1,4 @@
-enum LogLevel {
+export enum LogLevel {
   DEBUG,
   INFO,
   WARN,
@@ -15,7 +15,7 @@ const logLevelNames = {
 };
 
 export class Logger {
-  private static minLogLevel =
+  public static logLevel =
     LogLevel[process?.env?.LOG_LEVEL as keyof typeof LogLevel] ?? LogLevel.INFO;
   private static maxNameLength = 0;
 
@@ -44,7 +44,7 @@ export class Logger {
   }
 
   private log(level: LogLevel, message: unknown): void {
-    if (level >= Logger.minLogLevel) {
+    if (level >= Logger.logLevel) {
       console.log(
         `${new Date().toISOString()} [${logLevelNames[level]}] ${Logger.padName(
           this.name

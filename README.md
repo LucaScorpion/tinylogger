@@ -23,3 +23,16 @@ The above example will print:
 2020-09-14T12:41:21.715Z [WARN ] my-logger | Something might be going on.
 2020-09-14T12:41:21.715Z [ERROR] my-logger | Panic! Red alert!
 ```
+
+### Minimum Log Level
+
+The logger will automatically set the global minimum log level based on the `LOG_LEVEL` environment variable. This can also be changed by setting `Logger.logLevel`:
+
+```js
+import { Logger, LogLevel } from '@luca_scorpion/tinylogger';
+
+Logger.logLevel = LogLevel.DEBUG
+
+const log = new Logger('my-logger');
+log.debug('Now you will see me!');
+```
