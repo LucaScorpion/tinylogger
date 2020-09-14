@@ -1,0 +1,13 @@
+# IDEs
+*.iml
+.idea/
+
+# TypeScript
+Logger.ts
+tsconfig.json
+
+# Git
+.gitattributes
+
+# Previous build output
+*.tgz

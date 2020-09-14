@@ -1,0 +1,15 @@
+# Node
+node_modules/
+
+# Build
+*.js
+*.d.ts
+*.map
+*.tgz
+
+# IDEs
+*.iml
+.idea/
+
+# Misc
+.DS_Store
