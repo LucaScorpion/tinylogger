@@ -16,7 +16,8 @@ const logLevelNames = {
 
 export class Logger {
   public static logLevel =
-    LogLevel[process?.env?.LOG_LEVEL as keyof typeof LogLevel] ?? LogLevel.INFO;
+    LogLevel[process?.env?.LOG_LEVEL?.toUpperCase() as keyof typeof LogLevel] ??
+    LogLevel.INFO;
   private static maxNameLength = 0;
 
   public constructor(private readonly name: string) {

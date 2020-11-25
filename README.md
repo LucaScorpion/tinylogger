@@ -37,7 +37,7 @@ The logger will automatically set the global minimum log level based on the `LOG
 ```js
 import { Logger, LogLevel } from '@luca_scorpion/tinylogger';
 
-Logger.logLevel = LogLevel.DEBUG
+Logger.logLevel = LogLevel.DEBUG;
 
 const log = new Logger('my-logger');
 log.debug('Now you will see me!');
