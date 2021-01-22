@@ -35,7 +35,8 @@
     "access": "public"
   },
   "prettier": {
-    "singleQuote": true
+    "singleQuote": true,
+    "endOfLine": "auto"
   },
   "jest": {
     "transform": {
