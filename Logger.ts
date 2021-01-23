@@ -78,22 +78,51 @@ export class Logger {
     return `${name}${' '.repeat(Logger.maxNameLength - name.length)}`;
   }
 
+  /**
+   * Log a debug message.
+   *
+   * @param message The message to log.
+   */
   public debug(message: unknown): void {
     this.log(LogLevel.DEBUG, message);
   }
 
+  /**
+   * Log an info message.
+   *
+   * @param message The message to log.
+   */
   public info(message: unknown): void {
     this.log(LogLevel.INFO, message);
   }
 
+  /**
+   * Log a warning message.
+   *
+   * @param message The message to log.
+   */
   public warn(message: unknown): void {
     this.log(LogLevel.WARN, message);
   }
 
+  /**
+   * Log an error message.
+   *
+   * @param message The message to log.
+   */
   public error(message: unknown): void {
     this.log(LogLevel.ERROR, message);
   }
 
+  /**
+   * Log a message with the given log level.
+   * If the log level is {@link LogLevel.OFF} or lower than {@link Logger.logLevel}
+   * the message will be ignored.
+   *
+   * @param level The log level.
+   * @param message The message to log.
+   * @private
+   */
   private log(level: LogLevel, message: unknown): void {
     if (level < Logger.logLevel || level == LogLevel.OFF) {
       return;
