@@ -1,4 +1,4 @@
-import { Logger, LogLevel } from './Logger';
+import { Logger, LogHandlers, LogLevel } from './Logger';
 
 afterEach(() => {
   Logger.logLevel = LogLevel.INFO;
@@ -6,27 +6,99 @@ afterEach(() => {
 });
 
 describe('Logger', (): void => {
-  test('logging prints a message to the console', () => {
-    const spy = jest.spyOn(console, 'log');
+  test('default handlers print to the console', () => {
+    jest.spyOn(console, 'debug').mockImplementation();
+    jest.spyOn(console, 'info').mockImplementation();
+    jest.spyOn(console, 'warn').mockImplementation();
+    jest.spyOn(console, 'error').mockImplementation();
+
+    Logger.logLevel = LogLevel.DEBUG;
+    const log = new Logger('test');
+    log.debug('Debug');
+    log.info('Info');
+    log.warn('Warn');
+    log.error('Error');
+
+    expect(console.debug).toBeCalledWith(
+      expect.stringContaining(' [DEBUG] test | Debug')
+    );
+    expect(console.info).toBeCalledWith(
+      expect.stringContaining(' [INFO ] test | Info')
+    );
+    expect(console.warn).toBeCalledWith(
+      expect.stringContaining(' [WARN ] test | Warn')
+    );
+    expect(console.error).toBeCalledWith(
+      expect.stringContaining(' [ERROR] test | Error')
+    );
+  });
+
+  test('logging invokes the log handlers', () => {
+    const handlers: LogHandlers = {
+      [LogLevel.DEBUG]: jest.fn(),
+      [LogLevel.INFO]: jest.fn(),
+      [LogLevel.WARN]: jest.fn(),
+      [LogLevel.ERROR]: jest.fn(),
+    };
+    Logger.logLevel = LogLevel.DEBUG;
+    Logger.setLogHandlers(handlers);
 
     const log = new Logger('test');
-    log.info('A message');
+    log.debug('Debug');
+    log.info('Info');
+    log.warn('Warn');
+    log.error('Error');
 
-    expect(spy).toBeCalledWith(
-      expect.stringContaining(' [INFO ] test | A message')
+    expect(handlers[LogLevel.DEBUG]).toBeCalledWith(
+      expect.stringContaining(' [DEBUG] test | Debug')
+    );
+    expect(handlers[LogLevel.INFO]).toBeCalledWith(
+      expect.stringContaining(' [INFO ] test | Info')
+    );
+    expect(handlers[LogLevel.WARN]).toBeCalledWith(
+      expect.stringContaining(' [WARN ] test | Warn')
+    );
+    expect(handlers[LogLevel.ERROR]).toBeCalledWith(
+      expect.stringContaining(' [ERROR] test | Error')
     );
   });
 
   test('prints nothing when the log level is set to OFF', () => {
     Logger.logLevel = LogLevel.OFF;
-    const spy = jest.spyOn(console, 'log');
+    const handler = jest.fn();
+    Logger.setLogHandlers(handler);
 
-    const log = new Logger('off');
-    log.debug('debug');
-    log.info('info');
-    log.warn('warn');
-    log.error('error');
+    const log = new Logger('test');
+    log.debug('Debug');
+    log.info('Info');
+    log.warn('Warn');
+    log.error('Error');
 
-    expect(spy).not.toBeCalled();
+    expect(handler).not.toBeCalled();
+  });
+
+  test('uses a single function as log handler', () => {
+    Logger.logLevel = LogLevel.DEBUG;
+    const handler = jest.fn();
+    Logger.setLogHandlers(handler);
+
+    const log = new Logger('test');
+    log.debug('Debug');
+    log.info('Info');
+    log.warn('Warn');
+    log.error('Error');
+
+    expect(handler).toBeCalledWith(
+      expect.stringContaining(' [DEBUG] test | Debug')
+    );
+    expect(handler).toBeCalledWith(
+      expect.stringContaining(' [INFO ] test | Info')
+    );
+    expect(handler).toBeCalledWith(
+      expect.stringContaining(' [WARN ] test | Warn')
+    );
+    expect(handler).toBeCalledWith(
+      expect.stringContaining(' [ERROR] test | Error')
+    );
   });
 });
