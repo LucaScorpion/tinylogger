@@ -43,3 +43,32 @@ Logger.logLevel = LogLevel.DEBUG;
 const log = new Logger('my-logger');
 log.debug('Now you will see me!');
 ```
+
+### Custom Logging Handlers
+
+By default, all messages will be logged to the console. A custom handler can be set for each level using `Logger.setLogHandlers`:
+
+```js
+import { Logger, LogLevel } from '@luca_scorpion/tinylogger';
+
+const handleLog = (message: string) => {};
+const handleError = (message: string) => {};
+
+Logger.setLogHandlers({
+  [LogLevel.INFO]: handleLog,
+  [LogLevel.WARN]: handleLog,
+  [LogLevel.ERROR]: handleError,
+});
+```
+
+If a handler is not defined for a log level, it will be ignored.
+
+Alternatively, you can also pass a single handler to use for all levels:
+
+```js
+import { Logger } from '@luca_scorpion/tinylogger';
+
+const handleLog = (message: string) => {};
+
+Logger.setLogHandlers(handleLog);
+```
