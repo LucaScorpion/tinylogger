@@ -101,4 +101,26 @@ describe('Logger', (): void => {
       expect.stringContaining(' [ERROR] test | Error')
     );
   });
+
+  test('calls all log handlers', () => {
+    const allHandler = jest.fn();
+    const errorHandler = { [LogLevel.ERROR]: jest.fn() };
+    Logger.setLogHandlers(allHandler, errorHandler);
+
+    const log = new Logger('test');
+    log.info('Info');
+    log.error('Error');
+
+    expect(allHandler).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('[INFO ] test | Info')
+    );
+    expect(allHandler).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining(' [ERROR] test | Error')
+    );
+    expect(errorHandler[LogLevel.ERROR]).toBeCalledWith(
+      expect.stringContaining(' [ERROR] test | Error')
+    );
+  });
 });
