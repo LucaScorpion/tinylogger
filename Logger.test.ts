@@ -1,7 +1,8 @@
-import { Logger, LogHandlers, LogLevel } from './Logger';
+import { getConsoleLogHandlers, Logger, LogHandlers, LogLevel } from './Logger';
 
 afterEach(() => {
   Logger.logLevel = LogLevel.INFO;
+  Logger.setLogHandlers(getConsoleLogHandlers());
   jest.clearAllMocks();
 });
 
