@@ -23,6 +23,19 @@ export interface LogHandlers {
   [LogLevel.ERROR]?: LogFunction;
 }
 
+/**
+ * Get the default console log handlers.
+ * These will print messages to the console, using
+ * `console.debug`, `console.info`, `console.warn` and `console.error`
+ * for their respective log levels.
+ */
+export const getConsoleLogHandlers = (): LogHandlers => ({
+  [LogLevel.DEBUG]: (m) => console.debug(m),
+  [LogLevel.INFO]: (m) => console.info(m),
+  [LogLevel.WARN]: (m) => console.warn(m),
+  [LogLevel.ERROR]: (m) => console.error(m),
+});
+
 export class Logger {
   /**
    * The minimum log level.
@@ -40,16 +53,10 @@ export class Logger {
 
   /**
    * The log handlers used when logging messages.
+   * By default this will use the console handlers from {@link getConsoleLogHandlers}.
    * @private
    */
-  private static handlers: LogHandlers[] = [
-    {
-      [LogLevel.DEBUG]: (m) => console.debug(m),
-      [LogLevel.INFO]: (m) => console.info(m),
-      [LogLevel.WARN]: (m) => console.warn(m),
-      [LogLevel.ERROR]: (m) => console.error(m),
-    },
-  ];
+  private static handlers: LogHandlers[] = [getConsoleLogHandlers()];
 
   public constructor(private readonly name: string) {
     Logger.maxNameLength = Math.max(Logger.maxNameLength, name.length);
