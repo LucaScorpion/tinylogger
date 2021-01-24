@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/@luca_scorpion/tinylogger)](https://www.npmjs.com/package/@luca_scorpion/tinylogger)
 [![npm bundle size](https://img.shields.io/bundlephobia/min/@luca_scorpion/tinylogger)](https://www.npmjs.com/package/@luca_scorpion/tinylogger)
-[![tests](https://github.com/LucaScorpion/tinylogger/workflows/Test/badge.svg)](https://github.com/LucaScorpion/tinylogger/actions?query=workflow%3ATest)
+[![tests](https://github.com/LucaScorpion/tinylogger/workflows/tests/badge.svg)](https://github.com/LucaScorpion/tinylogger/actions?query=workflow%3Atests)
 [![dependencies](https://david-dm.org/LucaScorpion/tinylogger.svg)](https://david-dm.org/LucaScorpion/tinylogger)
 
 A no-nonsense, dependency-free, minimalistic logger.
