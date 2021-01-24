@@ -1,6 +1,6 @@
 {
   "name": "@luca_scorpion/tinylogger",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "A no-nonsense, dependency-free, minimalistic logger.",
   "keywords": [
     "log",
