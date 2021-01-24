@@ -113,7 +113,7 @@ describe('Logger', (): void => {
 
     expect(allHandler).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('[INFO ] test | Info')
+      expect.stringContaining(' [INFO ] test | Info')
     );
     expect(allHandler).toHaveBeenNthCalledWith(
       2,
