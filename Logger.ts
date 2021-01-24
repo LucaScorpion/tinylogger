@@ -23,6 +23,19 @@ export interface LogHandlers {
   [LogLevel.ERROR]?: LogFunction;
 }
 
+/**
+ * Get the default console log handlers.
+ * These will print messages to the console, using
+ * `console.debug`, `console.info`, `console.warn` and `console.error`
+ * for their respective log levels.
+ */
+export const getConsoleLogHandlers = (): LogHandlers => ({
+  [LogLevel.DEBUG]: (m) => console.debug(m),
+  [LogLevel.INFO]: (m) => console.info(m),
+  [LogLevel.WARN]: (m) => console.warn(m),
+  [LogLevel.ERROR]: (m) => console.error(m),
+});
+
 export class Logger {
   /**
    * The minimum log level.
@@ -40,14 +53,10 @@ export class Logger {
 
   /**
    * The log handlers used when logging messages.
+   * By default this will use the console handlers from {@link getConsoleLogHandlers}.
    * @private
    */
-  private static handlers: LogHandlers = {
-    [LogLevel.DEBUG]: (m) => console.debug(m),
-    [LogLevel.INFO]: (m) => console.info(m),
-    [LogLevel.WARN]: (m) => console.warn(m),
-    [LogLevel.ERROR]: (m) => console.error(m),
-  };
+  private static handlers: LogHandlers[] = [getConsoleLogHandlers()];
 
   public constructor(private readonly name: string) {
     Logger.maxNameLength = Math.max(Logger.maxNameLength, name.length);
@@ -60,18 +69,26 @@ export class Logger {
    *
    * @param handlers The handler function(s) to use.
    */
-  public static setLogHandlers(handlers: LogHandlers | LogFunction): void {
-    if (typeof handlers === 'function') {
-      // If the handler is a function, use that for all log levels.
-      this.handlers = {
-        [LogLevel.DEBUG]: handlers,
-        [LogLevel.INFO]: handlers,
-        [LogLevel.WARN]: handlers,
-        [LogLevel.ERROR]: handlers,
-      };
-    } else {
-      this.handlers = handlers;
-    }
+  public static setLogHandlers(
+    ...handlers: (LogHandlers | LogFunction)[]
+  ): void {
+    const newHandlers: LogHandlers[] = [];
+
+    handlers.forEach((h) => {
+      if (typeof h === 'function') {
+        // If the handler is a function, use that for all log levels.
+        newHandlers.push({
+          [LogLevel.DEBUG]: h,
+          [LogLevel.INFO]: h,
+          [LogLevel.WARN]: h,
+          [LogLevel.ERROR]: h,
+        });
+      } else {
+        newHandlers.push(h);
+      }
+    });
+
+    this.handlers = newHandlers;
   }
 
   private static padName(name: string): string {
@@ -128,13 +145,15 @@ export class Logger {
       return;
     }
 
-    const handler = Logger.handlers[level];
-    if (handler) {
-      handler(
-        `${new Date().toISOString()} [${logLevelNames[level]}] ${Logger.padName(
-          this.name
-        )} | ${message}`
-      );
-    }
+    Logger.handlers.forEach((h) => {
+      const levelHandler = h[level];
+      if (levelHandler) {
+        levelHandler(
+          `${new Date().toISOString()} [${
+            logLevelNames[level]
+          }] ${Logger.padName(this.name)} | ${message}`
+        );
+      }
+    });
   }
 }
